@@ -29,11 +29,36 @@ public class Menu {
     System.out.println("7. Saliir");
   }
   
+  public void presentacion() {
+    System.out.println("----------------------------------");
+    System.out.println("|                                |");
+    System.out.println("|            Inventario          |");
+    System.out.println("|                                |");
+    System.out.println("----------------------------------");
+  }
+  
+  public void limpiarPantalla() {
+    for (int i=0; i<10; i++){
+      System.out.println("\n");
+    }
+  }
+  
+  /**Muestra el menu para modificar un ingrediente
+   *
+   */
   public void menuModificar() {
+    System.out.println("----------------------------------");
+    System.out.println("|                                |");
+    System.out.println("|          Modificar             |");
+    System.out.println("|             un                 |");
+    System.out.println("|          ingrediente           |");
+    System.out.println("|                                |");
+    System.out.println("----------------------------------");
     System.out.println("\n1. Modificar nombre");
     System.out.println("2. Modificar cantidad");
     System.out.println("3. Modificar unidad de medida");
     System.out.println("4. Modificar precio");
+    System.out.println("5.Cancelar la modificacion");
   }
   
   /**Lee la opcion escogida del menu
@@ -145,13 +170,29 @@ public class Menu {
    * @param cadena Cadena a evaluar
    * @return Regresa si la cadena no es un numero
    */
-  public boolean esNumero(String cadena) {
+  public boolean esNumero (String cadena) {
     try{
       Long.parseLong(cadena);
     }catch(Exception e) {
       return false;
     }
     return true;
+  }
+  
+  public String leerConfirmacion() {
+    System.out.println("s/n");
+    int bandera = 0;
+    String sn = " ";
+    do{
+      sn = leerCadena();
+      if (sn.equals("n") || sn.equals("s")){
+        bandera = 1;
+      }
+      else{
+        System.out.println("\nPor favor ingrese una opcion valida");
+      }
+    }while (bandera != 1);
+    return sn;
   }
 }
 

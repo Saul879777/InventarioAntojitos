@@ -18,11 +18,19 @@ public class Ingrediente implements Serializable {
   private String unidadDeMedida;
   private double costo;
 
+  /**Costo se obtiene precio * cantidad
+   *
+   * @return Costo
+   */
   public double getCosto() {
     return costo;
   }
 
-  public void setCosto(double costo) {
+  /**Asignacion del costo
+   *
+   * @param costo Costo que se obtiene de precio * cantidad
+   */
+  public void setCosto (double costo) {
     this.costo = costo;
   }
 
@@ -36,9 +44,9 @@ public class Ingrediente implements Serializable {
 
   /**Asignacion de la unidad de medida
    *
-   * @param unidadDeMedida
+   * @param unidadDeMedida Unidad de medida que se usara para medir el producto
    */
-  public void setUnidadDeMedida(String unidadDeMedida) {
+  public void setUnidadDeMedida (String unidadDeMedida) {
     this.unidadDeMedida = unidadDeMedida;
   }
 
@@ -54,7 +62,7 @@ public class Ingrediente implements Serializable {
    *
    * @param precio Precio por kilo del ingrediente
    */
-  public void setPrecio(double precio) {
+  public void setPrecio (double precio) {
     this.precio = precio;
   }
 
@@ -70,7 +78,7 @@ public class Ingrediente implements Serializable {
    *
    * @param nombre Nombre con el que se registro en nombre
    */
-  public void setNombre(String nombre) {
+  public void setNombre (String nombre) {
     this.nombre = nombre;
   }
 
@@ -86,7 +94,7 @@ public class Ingrediente implements Serializable {
    *
    * @param cantidad Cantidad existente del ingrediente
    */
-  public void setCantidad(double cantidad) {
+  public void setCantidad (double cantidad) {
     this.cantidad = cantidad;
   }
 
@@ -96,8 +104,9 @@ public class Ingrediente implements Serializable {
    * @param cantidad Cantidad que hay del ingrediente
    * @param precio Precio por kilogramo
    * @param unidadDeMedida Unidad de medida de cantidad
+   * @param costo Costo obtenido de precio * cantidad
    */  
-  public Ingrediente(String nombre, double cantidad, double precio, String unidadDeMedida, double costo) {
+  public Ingrediente (String nombre, double cantidad, double precio, String unidadDeMedida, double costo) {
     this.nombre = nombre;
     this.cantidad = cantidad;
     this.precio = precio;
@@ -121,6 +130,11 @@ public class Ingrediente implements Serializable {
     precio = precio + nuevoPrecio;
   }
   
+  /**Agregar el precio y cantidad a un ingrediente ya existente
+   *
+   * @param masPrecio El precio que se agregara
+   * @param masCantidad La cantidad que se agregara
+   */
   public void agregarGeneral (double masPrecio, double masCantidad) {
     cantidad = cantidad + masCantidad;
     precio = cantidad + masPrecio;

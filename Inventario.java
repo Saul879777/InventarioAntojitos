@@ -14,7 +14,6 @@ import java.util.ArrayList;
  */
 public class Inventario {
   private ArrayList <Ingrediente> Inventario = new ArrayList();
-  
   /**Agregar un nuevo ingrediente al inventario
    *
    * @param nuevoIngrediente El nuevo ingrediente que se registro
@@ -37,11 +36,17 @@ public class Inventario {
    * @param nombreIngrediente Busca el nombre del ingrediente para borrarlo
    */
   public void borrarIngrediente (String nombreIngrediente) {
+    Confirmaciones confirmacion = new Confirmaciones();
     for(int i=0; i < Inventario.size(); i++){
       Ingrediente temporal = Inventario.get(i);
       if(temporal.getNombre().equals(nombreIngrediente)) {
-      Inventario.remove(i);
-      System.out.println("Ingrediente "+ nombreIngrediente + " eliminado");
+        if (confirmacion.confirmacionBorrar() == 1){
+          Inventario.remove(i);
+          System.out.println("Ingrediente "+ nombreIngrediente + " eliminado");
+        }
+        else{
+          System.out.println("El inventario no fue borrado");
+        }
       }
     }
   }
@@ -88,6 +93,7 @@ public class Inventario {
   public void agregarCantidad (String nombreIngrediente) {
     int i;
     Menu menu = new Menu();
+    Confirmaciones confirmacion = new Confirmaciones();
     for(i=0; i < Inventario.size(); i++){
     Ingrediente temporal = Inventario.get(i);
       if(temporal.getNombre().equals(nombreIngrediente)) {
@@ -97,9 +103,14 @@ public class Inventario {
         cantidad=cantidad + temporal.getCantidad();
         costo = ((costo/cantidad) + (temporal.getPrecio()/temporal.getCantidad()))/2;
         costo = costo * cantidad;
+        if (confirmacion.confirmacionAgregarCantidadYPrecio() == 1) {
         temporal.setCosto(costo);
         temporal.agregarGeneral(precio, cantidad);
         System.out.println("Ingrediente "+ nombreIngrediente + " modificado");
+        }
+        else{
+          System.out.println("La cantidad y precio no han sido agregados");
+        }
         break;
       }
     }
@@ -108,7 +119,12 @@ public class Inventario {
     }
   }
 
-  public void modificarIngrediente (String nombreIngrediente){
+  /**Modificar algun atributo del ingrediente
+   *
+   * @param nombreIngrediente Ingrediente que se modificara
+   */
+  public void modificarIngrediente (String nombreIngrediente) {
+    Confirmaciones confirmacion = new Confirmaciones();
     int i;
     int opc;
     Menu menu = new Menu();
@@ -117,22 +133,43 @@ public class Inventario {
       if (temporal.getNombre().equals(nombreIngrediente)) {
         menu.menuModificar();
         opc = menu.leerOpcion();
-        switch (opc){
+        switch (opc) {
           case 1:
             String nuevoNombre = menu.leerNombre();
-            temporal.setNombre(nuevoNombre);
+            if (confirmacion.confirmacionModificar() == 1) {
+              temporal.setNombre(nuevoNombre);
+              System.out.println("Nombre de ingrediente cambiado a " + nuevoNombre);
+            }
+            else {
+              System.out.println("Modificacion de ingrediente descartada");
+            }
             break;
           case 2:
             double nuevaCantidad = menu.leerCantidad();
-            temporal.setCantidad(nuevaCantidad);
+            if (confirmacion.confirmacionModificar() == 1) {
+              temporal.setCantidad(nuevaCantidad);
+            }
+            else {
+              System.out.println("Modificacion de ingrediente descartada");
+            }
             break;
           case 3:
             String nuevaUnidadDeMedida = menu.leerUnidadMedida();
-            temporal.setUnidadDeMedida(nuevaUnidadDeMedida);
+            if (confirmacion.confirmacionModificar() == 1) {
+              temporal.setUnidadDeMedida(nuevaUnidadDeMedida);
+            }
+            else {
+              System.out.println("Modificacion de ingrediente descartada");
+            }
             break;
           case 4:
             double nuevoPrecio = menu.leerPrecio();
-            temporal.setPrecio(nuevoPrecio);
+            if (confirmacion.confirmacionModificar() == 1) {
+              temporal.setPrecio(nuevoPrecio);
+            }
+            else {
+              System.out.println("Modificacion de ingrediente descartada");
+            }
             break;
           case 5:
             System.out.println("\nNo se hicieron cambios en el ingrediente");
