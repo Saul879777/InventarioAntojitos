@@ -18,6 +18,8 @@ public class Ingrediente implements Serializable {
   private String unidadDeMedida;
   private double costo;
 
+  
+
   /**Costo se obtiene precio * cantidad
    *
    * @return Costo

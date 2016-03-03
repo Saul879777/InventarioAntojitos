@@ -35,13 +35,18 @@ public class Inventario {
    *
    * @param nombreIngrediente Busca el nombre del ingrediente para borrarlo
    */
-  public void borrarIngrediente (String nombreIngrediente) {
+  public void borrarIngrediente (String nombreIngrediente, HistorialModificaciones historial) {
     Confirmaciones confirmacion = new Confirmaciones();
+    CambiosEnInventario cambio = new CambiosEnInventario();
     for(int i=0; i < Inventario.size(); i++){
       Ingrediente temporal = Inventario.get(i);
       if(temporal.getNombre().equals(nombreIngrediente)) {
         if (confirmacion.confirmacionBorrar() == 1){
           Inventario.remove(i);
+          cambio.setNombreDeIngredienteModificado(nombreIngrediente);
+          cambio.setNombreDelCambio("Ingrediente eliminado");
+          cambio.setCantidadDeAumentoODecremento(0);
+          historial.agregarNuevoCambio(cambio);
           System.out.println("Ingrediente "+ nombreIngrediente + " eliminado");
         }
         else{
@@ -90,8 +95,9 @@ public class Inventario {
    *
    * @param nombreIngrediente Nombre del ingrediente en el que se agregara
    */
-  public void agregarCantidad (String nombreIngrediente) {
+  public void agregarCantidad (String nombreIngrediente, HistorialModificaciones historial) {
     int i;
+    CambiosEnInventario cambio = new CambiosEnInventario();
     Menu menu = new Menu();
     Confirmaciones confirmacion = new Confirmaciones();
     for(i=0; i < Inventario.size(); i++){
@@ -104,11 +110,13 @@ public class Inventario {
         costo = ((costo/cantidad) + (temporal.getPrecio()/temporal.getCantidad()))/2;
         costo = costo * cantidad;
         if (confirmacion.confirmacionAgregarCantidadYPrecio() == 1) {
-        temporal.setCosto(costo);
-        temporal.agregarGeneral(precio, cantidad);
-        System.out.println("Ingrediente "+ nombreIngrediente + " modificado");
-        }
-        else{
+          temporal.setCosto(costo);
+          temporal.agregarGeneral(precio, cantidad);
+          cambio.setNombreDeIngredienteModificado(nombreIngrediente);
+          cambio.setNombreDelCambio("Agregar cantidad");
+          cambio.setCantidadDeAumentoODecremento(cantidad);
+          historial.agregarNuevoCambio(cambio);
+        }else{
           System.out.println("La cantidad y precio no han sido agregados");
         }
         break;
@@ -123,11 +131,12 @@ public class Inventario {
    *
    * @param nombreIngrediente Ingrediente que se modificara
    */
-  public void modificarIngrediente (String nombreIngrediente) {
+  public void modificarIngrediente (String nombreIngrediente, HistorialModificaciones historial) {
     Confirmaciones confirmacion = new Confirmaciones();
     int i;
     int opc;
     Menu menu = new Menu();
+    CambiosEnInventario cambio = new CambiosEnInventario();
     for (i=0; i<Inventario.size(); i++) {
       Ingrediente temporal = Inventario.get(i);
       if (temporal.getNombre().equals(nombreIngrediente)) {
@@ -137,8 +146,12 @@ public class Inventario {
           case 1:
             String nuevoNombre = menu.leerNombre();
             if (confirmacion.confirmacionModificar() == 1) {
-              temporal.setNombre(nuevoNombre);
               System.out.println("Nombre de ingrediente cambiado a " + nuevoNombre);
+              cambio.setNombreDeIngredienteModificado(nombreIngrediente);
+              cambio.setNombreDelCambio("Modificar nombre a " + nuevoNombre);
+              cambio.setCantidadDeAumentoODecremento(0);
+              temporal.setNombre(nuevoNombre);
+              historial.agregarNuevoCambio(cambio);
             }
             else {
               System.out.println("Modificacion de ingrediente descartada");
@@ -147,7 +160,11 @@ public class Inventario {
           case 2:
             double nuevaCantidad = menu.leerCantidad();
             if (confirmacion.confirmacionModificar() == 1) {
+              cambio.setNombreDeIngredienteModificado(nombreIngrediente);
+              cambio.setNombreDelCambio("Cantidad modificada de " + temporal.getNombre());
+              cambio.setCantidadDeAumentoODecremento(nuevaCantidad);
               temporal.setCantidad(nuevaCantidad);
+              historial.agregarNuevoCambio(cambio);
             }
             else {
               System.out.println("Modificacion de ingrediente descartada");
@@ -156,6 +173,10 @@ public class Inventario {
           case 3:
             String nuevaUnidadDeMedida = menu.leerUnidadMedida();
             if (confirmacion.confirmacionModificar() == 1) {
+              cambio.setNombreDeIngredienteModificado(nombreIngrediente);
+              cambio.setNombreDelCambio("Unidad de medida modificada de " + temporal.getUnidadDeMedida() + " a " + nuevaUnidadDeMedida);
+              cambio.setCantidadDeAumentoODecremento(0);
+              historial.agregarNuevoCambio(cambio);
               temporal.setUnidadDeMedida(nuevaUnidadDeMedida);
             }
             else {
@@ -165,6 +186,10 @@ public class Inventario {
           case 4:
             double nuevoPrecio = menu.leerPrecio();
             if (confirmacion.confirmacionModificar() == 1) {
+              cambio.setNombreDeIngredienteModificado(nombreIngrediente);
+              cambio.setNombreDelCambio("Precio modificado de: " + temporal.getPrecio());
+              cambio.setCantidadDeAumentoODecremento(nuevoPrecio);
+              historial.agregarNuevoCambio(cambio);
               temporal.setPrecio(nuevoPrecio);
             }
             else {
@@ -192,7 +217,6 @@ public class Inventario {
   */
   public int yaExiste (String nombreIngrediente) {
     int existe = 0;
-    Menu menu = new Menu();
     for(int i=0; i < Inventario.size(); i++){
     Ingrediente temporal = Inventario.get(i);
       if(temporal.getNombre().equals(nombreIngrediente)) {
@@ -200,5 +224,80 @@ public class Inventario {
       }
     }
     return existe;
+  }
+  
+  /**Verifica que ningun ingrediente tenga una cantidad < a 5
+   *
+   */
+  public void verificarFaltaDeIngredientes() {
+    int i;
+    for(i=0; i < Inventario.size(); i++){
+      Ingrediente temporal = Inventario.get(i);
+      if (temporal.getCantidad() < 5) {
+        System.out.println("Advertencia: Queda poco(a) " + temporal.getNombre() + " favor de surtir");
+      }
+    }
+  }
+  
+  public void hacerComida (int opcion, HistorialModificaciones historial) {
+    switch (opcion){
+      case 1:
+        hacerSalsa(historial);
+        break;
+      case 2:
+        hacerGordita(historial);
+        break;
+    }
+  }
+
+  public int disponible(String nombreIngrediente) {
+    int bandera = 0;
+    int i;
+    for(i=0; i < Inventario.size(); i++){
+      Ingrediente temporal = Inventario.get(i);
+      if (temporal.getNombre().equals(nombreIngrediente) && temporal.getCantidad() > 3) {
+        bandera = 1;
+      } 
+    }
+    return bandera;
+  }
+  
+  public void quitarCantidad(String nombreIngrediente, double cantidadPorQuitar, HistorialModificaciones historial){
+    int i;
+    CambiosEnInventario cambio = new CambiosEnInventario();
+    for(i=0; i < Inventario.size(); i++){
+      Ingrediente temporal = Inventario.get(i);
+      if (temporal.getNombre().equals(nombreIngrediente)){
+        double cantidadRestante = temporal.getCantidad() - cantidadPorQuitar;
+        temporal.setCantidad(cantidadRestante);
+      }
+    }
+    cambio.setNombreDeIngredienteModificado(nombreIngrediente);
+    cambio.setNombreDelCambio("Elaborar producto");
+    cambio.setCantidadDeAumentoODecremento(cantidadPorQuitar);
+    historial.agregarNuevoCambio(cambio);
+  }
+  
+  public void hacerSalsa(HistorialModificaciones historial) {
+    if ( disponible("agua") == 1 && disponible("tomate") == 1 && disponible("chile") == 1 && disponible("cebolla") == 1){
+      quitarCantidad("agua", 1, historial);
+      quitarCantidad("tomate", 0.1, historial);
+      quitarCantidad("chile", 0.05, historial);
+      quitarCantidad("cebolla", 0.05, historial);
+    }
+    for (int i=0; i<Inventario.size(); i++) {
+      Ingrediente temporal = Inventario.get(i);
+      if (temporal.getNombre().equals("salsa")) {
+        temporal.agregarCantidad(1.2);
+      }
+    }
+  }
+  
+  public void hacerGordita(HistorialModificaciones historial) {
+    if (disponible("masa") == 1 && disponible("salsa") == 1 && disponible("queso") == 1 && disponible("cebolla") == 1)
+      quitarCantidad("masa", 0.1, historial);
+      quitarCantidad("salsa", 0.05, historial);
+      quitarCantidad("queso", 0.05, historial);
+      quitarCantidad("cebolla", 0.01, historial);
   }
 }

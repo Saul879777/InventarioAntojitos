@@ -24,11 +24,16 @@ public class Menu {
     System.out.println("2. Agregar cantidad a ingrediente");
     System.out.println("3. Modificar ingrediente");
     System.out.println("4. Eliminar Ingrediente");
-    System.out.println("5. Mostrar Ingrediente");
-    System.out.println("6. Guardar Ingrediente");
-    System.out.println("7. Saliir");
+    System.out.println("5. Mostrar Ingredientes");
+    System.out.println("6. Mostrar historial de cambios al inventario");
+    System.out.println("7. Guardar Inventarios");
+    System.out.println("8. Elaborar comida");
+    System.out.println("9. Saliir");
   }
   
+  /**Presentacion para el inventario
+   *
+   */
   public void presentacion() {
     System.out.println("----------------------------------");
     System.out.println("|                                |");
@@ -37,10 +42,12 @@ public class Menu {
     System.out.println("----------------------------------");
   }
   
-  public void limpiarPantalla() {
-    for (int i=0; i<10; i++){
-      System.out.println("\n");
-    }
+  public void presentacionModificaciones(){
+    System.out.println("----------------------------------");
+    System.out.println("|                                |");
+    System.out.println("|        Modificaciones          |");
+    System.out.println("|                                |");
+    System.out.println("----------------------------------");
   }
   
   /**Muestra el menu para modificar un ingrediente
@@ -58,7 +65,18 @@ public class Menu {
     System.out.println("2. Modificar cantidad");
     System.out.println("3. Modificar unidad de medida");
     System.out.println("4. Modificar precio");
-    System.out.println("5.Cancelar la modificacion");
+    System.out.println("5. Cancelar la modificacion");
+  }
+  
+  public void menuHacerComida() {
+    System.out.println("----------------------------------");
+    System.out.println("|                                |");
+    System.out.println("|            Hacer               |");
+    System.out.println("|            comida              |");
+    System.out.println("|                                |");
+    System.out.println("----------------------------------");
+    System.out.println("\n1. Hacer salsa");
+    System.out.println("2. Hacer gordita");
   }
   
   /**Lee la opcion escogida del menu
@@ -102,11 +120,11 @@ public class Menu {
    * @return Retorna la opcion en caso de que se valida
    */
   public int leerEntero() {
-    int entero = 0;
+    int enteroIngresado = 0;
     boolean bandera = false;
     do{
       try{
-        entero = teclado.nextInt();
+        enteroIngresado = teclado.nextInt();
         bandera = true;
       }catch(InputMismatchException imme) {
         System.out.println("Por favor ingresa un entero");
@@ -114,7 +132,7 @@ public class Menu {
         teclado.nextLine();   
       }
     }while(!bandera);
-    return entero;
+    return enteroIngresado;
   }
  
   /**Unidad de medida con la que se mide el ingrediente
@@ -131,11 +149,11 @@ public class Menu {
    * @return Retorna el valor que tiene cantidad en caso de ser valida
    */
   public double leerDouble() {
-    double entero = 0;
+    double doubleIgresado = 0;
     boolean bandera = false;
     do{
       try{
-        entero = teclado.nextDouble();
+        doubleIgresado = teclado.nextDouble();
         bandera = true;
       }catch(InputMismatchException imme) {
         System.out.println("Por favor ingresa un entero");
@@ -143,7 +161,7 @@ public class Menu {
         teclado.nextLine();   
       }
     }while(!bandera);
-    return entero;
+    return doubleIgresado;
   }
   
   /**Verifica que no se ingresen numeros en vez de cadenas
@@ -151,18 +169,18 @@ public class Menu {
    * @return Regresa la cadena verificada
    */
   public String leerCadena() {
-    String cadena = " ";
+    String cadenaIngresada = " ";
     boolean bandera = false;
     do{
-      cadena = teclado.next();
+      cadenaIngresada = teclado.next();
       bandera = true;
-      if(esNumero(cadena)){
+      if(esNumero(cadenaIngresada)){
         System.out.println("\nPor faver ingrese un nombre sin numeros");
         bandera = false;
-        cadena = teclado.nextLine();
+        cadenaIngresada = teclado.nextLine();
       }
     }while(!bandera);
-    return cadena;
+    return cadenaIngresada;
   }
   
   /**Evalua si la cadena es de enteros
@@ -179,26 +197,25 @@ public class Menu {
     return true;
   }
   
+  /**Verifica que lo ingresado en la confirmacion sea una opcion valida
+   *
+   * @return La opcion que se escogio si fue s o n
+   */
   public String leerConfirmacion() {
     System.out.println("s/n");
     int bandera = 0;
-    String sn = " ";
+    String siONo = " ";
     do{
-      sn = leerCadena();
-      if (sn.equals("n") || sn.equals("s")){
+      siONo = leerCadena();
+      if (siONo.equals("n") || siONo.equals("s")){
         bandera = 1;
       }
       else{
         System.out.println("\nPor favor ingrese una opcion valida");
       }
     }while (bandera != 1);
-    return sn;
+    return siONo;
   }
 }
 
-/*
-Agregar los atributos precio y unidad de mediad
-Usar exceptions
-Modificar el inventario (aumentar cantidad) y sacar un promedio para asignar un precio
-Generar diseño de elaborar antojitos
-*/
+/*Hacer resumen hasta la pagina 57 e investigar la notacion hungara*/
