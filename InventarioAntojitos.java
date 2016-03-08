@@ -8,7 +8,7 @@ package inventarioantojitos;
 /**Clase principal
  *
  * @author Saúl Enrique Melchor Ramírez
- * @version 0.1
+ * @version 1.0
  */
 public class InventarioAntojitos {
 

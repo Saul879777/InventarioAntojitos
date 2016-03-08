@@ -9,6 +9,8 @@ import java.util.Date;
 /**
  *
  * @author Saul Enrique Melchor Ramirez
+ * @version 1.0
+ * mendeley desktop
  */
 public class CambiosEnInventario {
     private Date fechaDeCambio = new Date();
@@ -16,45 +18,73 @@ public class CambiosEnInventario {
     private String nombreDelCambio;
     private double cantidadDeAumentoODecremento;
 
-    public Date getFechaDeCambio() {
+  /**Obtener la fecha del cambio
+   *
+   * @return La fecha de cambio
+   */
+  public Date getFechaDeCambio() {
         return fechaDeCambio;
     }
 
-    public void setFechaDeCambio(Date fechaDeCambio) {
+  /**Aginar la fecha de cambio
+   *
+   * @param fechaDeCambio Se asigna para la construccion del objeto
+   */
+  public void setFechaDeCambio(Date fechaDeCambio) {
         this.fechaDeCambio = fechaDeCambio;
     }
 
-    public String getNombreDeIngredienteModificado() {
+  /**Obtener el nombre del ingrediente
+   *
+   * @return El nombre del ingrediente
+   */
+  public String getNombreDeIngredienteModificado() {
         return nombreDeIngredienteModificado;
     }
 
-    public void setNombreDeIngredienteModificado(String nombreDeIngredienteModificado) {
+  /**Asignacion del nombre del ingrediente modificado
+   *
+   * @param nombreDeIngredienteModificado Se asigna para la construccion de objeto
+   */
+  public void setNombreDeIngredienteModificado(String nombreDeIngredienteModificado) {
         this.nombreDeIngredienteModificado = nombreDeIngredienteModificado;
     }
 
-    public String getNombreDelCambio() {
+  /**Obtener el nombre del cambio
+   *
+   * @return El nombre del cambio que se hizo
+   */
+  public String getNombreDelCambio() {
         return nombreDelCambio;
     }
 
-    public void setNombreDelCambio(String nombreDelCambio) {
+  /**Asignacion del nombre del cambio
+   *
+   * @param nombreDelCambio Se asigna para la costruccion del objeto
+   */
+  public void setNombreDelCambio(String nombreDelCambio) {
         this.nombreDelCambio = nombreDelCambio;
     }
 
-    public double getCantidadDeAumentoODecremento() {
+  /**Obtener la cantidad de aumento o decremento
+   *
+   * @return Cantidad de aumento o decremento de la cantidad del ingrediente
+   */
+  public double getCantidadDeAumentoODecremento() {
         return cantidadDeAumentoODecremento;
     }
 
-    public void setCantidadDeAumentoODecremento(double cantidadDeAumentoODecremento) {
+  /**Asignar la catidad del aumento o decremento
+   *
+   * @param cantidadDeAumentoODecremento Se asigna para la construccion del objeto
+   */
+  public void setCantidadDeAumentoODecremento(double cantidadDeAumentoODecremento) {
         this.cantidadDeAumentoODecremento = cantidadDeAumentoODecremento;
     }
     
     @Override
-    public String toString() {
-        return "\nFecha: " + fechaDeCambio + " \nNombre de ingrediente modificado: " + nombreDeIngredienteModificado + "\nNombre del cambio: "
-                + nombreDelCambio + "\nCantidad " + cantidadDeAumentoODecremento + "\n";
-    }
-    
-    /*public String conseguirFecha() {
-        
-    }*/
+  public String toString() {
+    return "\nFecha: " + fechaDeCambio + " \nNombre de ingrediente modificado: " + nombreDeIngredienteModificado + "\nNombre del cambio: "
+              + nombreDelCambio + "\nCantidad " + cantidadDeAumentoODecremento + "\n";
+  }
 }

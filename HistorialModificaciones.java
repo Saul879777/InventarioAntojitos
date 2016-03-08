@@ -1,4 +1,4 @@
-/*
+/*     
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,21 +9,32 @@ import java.util.ArrayList;
 
 /**
  *
- * @author x360
+ * @author Saul Enrique Melchor Ramirez
+ * @version 1.0
  */
 public class HistorialModificaciones {
   private ArrayList <CambiosEnInventario> Historial = new ArrayList();
     
+  /**Agregar un cabmio a la lista
+   *
+   * @param nuevoCambio Para agregar el cambio a la lista
+   */
   public void agregarNuevoCambio (CambiosEnInventario nuevoCambio) {
     Historial.add(nuevoCambio);
   }
   
+  /**Muestra el historial de cambios
+   *
+   */
   public void mostrarHistorial() {
     for(CambiosEnInventario temporal : Historial) {
       System.out.print(temporal);
     }
   }
   
+  /**Recuperar el historial de cambios
+   *
+   */
   public void recuperarHistorial() {
     try{
       FileInputStream entrada = new FileInputStream("Historial.dat");
@@ -40,6 +51,9 @@ public class HistorialModificaciones {
       }
   }
   
+  /**Guardar el historial para que se pueda recuperar
+   *
+   */
   public void guardarHistorial() {
     try{
       FileOutputStream salida = new FileOutputStream("Historial.dat");
@@ -51,7 +65,5 @@ public class HistorialModificaciones {
         //ioe.printStackTrace
         System.out.println("\nEl inventario ha sido guardado");
       }
-  }
-  
-  
+  } 
 }

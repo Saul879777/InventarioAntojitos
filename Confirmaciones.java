@@ -8,7 +8,7 @@ package inventarioantojitos;
 /**
  *
  * @author Saúl Enrique Melchor Ramirez
- * @version 0.1
+ * @version 1.0
  */
 public class Confirmaciones {
   private int bandera = 0;

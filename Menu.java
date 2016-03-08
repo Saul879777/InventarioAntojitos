@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**Menu
  *
  * @author Saul Enrique Melchor Ramirez
- * @version 0.1
+ * @version 1.0
  */
 public class Menu {
   Scanner teclado = new Scanner(System.in);
@@ -42,6 +42,9 @@ public class Menu {
     System.out.println("----------------------------------");
   }
   
+  /**Presentacion para modificar
+   *
+   */
   public void presentacionModificaciones(){
     System.out.println("----------------------------------");
     System.out.println("|                                |");
@@ -68,6 +71,9 @@ public class Menu {
     System.out.println("5. Cancelar la modificacion");
   }
   
+  /**Menu para hacer comida
+   *
+   */
   public void menuHacerComida() {
     System.out.println("----------------------------------");
     System.out.println("|                                |");
@@ -104,6 +110,15 @@ public class Menu {
   public double leerCantidad() {
     System.out.println("\nIngrese la cantidad: ");
     return leerDouble();
+  }
+  
+    /**Preguntar cuantos antojitos se quieren hacer
+     *
+     * @return Cantidad de cuantos antojitos se quieren hacer
+     */
+    public int leerCantidadPorHacer() {
+    System.out.println("\nIngrese la cantidad de antojitos por hacer: ");
+    return leerEntero();
   }
   
   /**Lee el precio del ingrediente

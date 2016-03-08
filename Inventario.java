@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**Aministracion del inventario
  *
  * @author Saúl Enrique Melchor Ramírez
- * @version 0.1
+ * @version 1.0
  */
 public class Inventario {
   private ArrayList <Ingrediente> Inventario = new ArrayList();
@@ -34,6 +34,7 @@ public class Inventario {
   /**Borra un ingrediente
    *
    * @param nombreIngrediente Busca el nombre del ingrediente para borrarlo
+   * @param historial Se pasa como parametro para ser modificado
    */
   public void borrarIngrediente (String nombreIngrediente, HistorialModificaciones historial) {
     Confirmaciones confirmacion = new Confirmaciones();
@@ -94,6 +95,7 @@ public class Inventario {
   /**Agregar cantidad a un ingrediente existente
    *
    * @param nombreIngrediente Nombre del ingrediente en el que se agregara
+   * @param historial Se pasa como parametro para que sea modificado
    */
   public void agregarCantidad (String nombreIngrediente, HistorialModificaciones historial) {
     int i;
@@ -106,12 +108,13 @@ public class Inventario {
         double cantidad = menu.leerCantidad();
         double costo=0;
         double precio = menu.leerPrecio();
-        cantidad=cantidad + temporal.getCantidad();
-        costo = ((costo/cantidad) + (temporal.getPrecio()/temporal.getCantidad()))/2;
-        costo = costo * cantidad;
+        costo = (temporal.getPrecio() * temporal.getPrecio()) + precio * cantidad;
+        cantidad = cantidad + temporal.getCantidad();
+        precio = (precio + temporal.getPrecio())/2;
         if (confirmacion.confirmacionAgregarCantidadYPrecio() == 1) {
           temporal.setCosto(costo);
-          temporal.agregarGeneral(precio, cantidad);
+          temporal.setCantidad(cantidad);
+          temporal.setPrecio(precio);
           cambio.setNombreDeIngredienteModificado(nombreIngrediente);
           cambio.setNombreDelCambio("Agregar cantidad");
           cambio.setCantidadDeAumentoODecremento(cantidad);
@@ -130,6 +133,7 @@ public class Inventario {
   /**Modificar algun atributo del ingrediente
    *
    * @param nombreIngrediente Ingrediente que se modificara
+   * @param historial Se pasa como parametro para ser modificado
    */
   public void modificarIngrediente (String nombreIngrediente, HistorialModificaciones historial) {
     Confirmaciones confirmacion = new Confirmaciones();
@@ -239,17 +243,27 @@ public class Inventario {
     }
   }
   
+  /**Hacer el platillo que el usuario escogio (actualmente salsa y gordita)
+   *
+   * @param opcion Platillo que el usuario escogio hacer
+   * @param historial Se pasa como parametro para ser modificado
+   */
   public void hacerComida (int opcion, HistorialModificaciones historial) {
     switch (opcion){
       case 1:
         hacerSalsa(historial);
         break;
       case 2:
-        hacerGordita(historial);
+        hacerGordita(historial);   
         break;
     }
   }
 
+  /**Verifica que haya suficiente cantidad de un ingrediente para hacer comida
+   *
+   * @param nombreIngrediente Se busca el nombre del ingrediente
+   * @return 0 o 1 dependiendo del estado del ingrediente
+   */
   public int disponible(String nombreIngrediente) {
     int bandera = 0;
     int i;
@@ -262,6 +276,12 @@ public class Inventario {
     return bandera;
   }
   
+  /**Quitar cantidad de un ingrediente a la hora de hacer comida
+   *
+   * @param nombreIngrediente Es el ingrediente del cual se quitara cantidad
+   * @param cantidadPorQuitar La cantidad que se quitara
+   * @param historial Se pasa por parametro para ser modificado
+   */
   public void quitarCantidad(String nombreIngrediente, double cantidadPorQuitar, HistorialModificaciones historial){
     int i;
     CambiosEnInventario cambio = new CambiosEnInventario();
@@ -278,7 +298,12 @@ public class Inventario {
     historial.agregarNuevoCambio(cambio);
   }
   
+  /**Se agrega cantidad a salsa y se manda a llamar a la funcion de quitar
+   *
+   * @param historial Se pasa como perimetro para ser modificado
+   */
   public void hacerSalsa(HistorialModificaciones historial) {
+    CambiosEnInventario cambio = new CambiosEnInventario();
     if ( disponible("agua") == 1 && disponible("tomate") == 1 && disponible("chile") == 1 && disponible("cebolla") == 1){
       quitarCantidad("agua", 1, historial);
       quitarCantidad("tomate", 0.1, historial);
@@ -288,11 +313,20 @@ public class Inventario {
     for (int i=0; i<Inventario.size(); i++) {
       Ingrediente temporal = Inventario.get(i);
       if (temporal.getNombre().equals("salsa")) {
-        temporal.agregarCantidad(1.2);
+        double cantidad = temporal.getCantidad() + 1.2;
+        temporal.setCantidad(1.2);
+        cambio.setNombreDeIngredienteModificado("salsa");
+        cambio.setNombreDelCambio("Hacer salsa");
+        cambio.setCantidadDeAumentoODecremento(1.2);
+        historial.agregarNuevoCambio(cambio);
       }
     }
   }
   
+  /**Se manda a llamar a la funcion de quitar cantidad para hacer una gordita
+   *
+   * @param historial Se pasa como parametro para ser modificado
+   */
   public void hacerGordita(HistorialModificaciones historial) {
     if (disponible("masa") == 1 && disponible("salsa") == 1 && disponible("queso") == 1 && disponible("cebolla") == 1)
       quitarCantidad("masa", 0.1, historial);

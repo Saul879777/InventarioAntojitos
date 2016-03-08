@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**Administrar ingredientes para posteriormente agregarlo al inventario
  *
  * @author Saúl Enrique Melchor Ramírez
- * @version 0.1
+ * @version 1.0
  */
 public class Ingrediente implements Serializable {
   private String nombre;
@@ -114,32 +114,6 @@ public class Ingrediente implements Serializable {
     this.precio = precio;
     this.unidadDeMedida = unidadDeMedida;
     this.costo = costo;
-  }
-  
-  /**Aumenta la cantidad de un ingrediente
-   *
-   * @param nuevaCantidad Cantidad que se agregara a la cantidad existente
-   */
-  public void agregarCantidad (double nuevaCantidad) {
-    cantidad = cantidad + nuevaCantidad;
-  }
-  
-  /**Cambiar el precio de la cantidad ingresada
-   *
-   * @param nuevoPrecio Nuevo precio por el que se compro
-   */
-  public void agregarPrecio (double nuevoPrecio) {
-    precio = precio + nuevoPrecio;
-  }
-  
-  /**Agregar el precio y cantidad a un ingrediente ya existente
-   *
-   * @param masPrecio El precio que se agregara
-   * @param masCantidad La cantidad que se agregara
-   */
-  public void agregarGeneral (double masPrecio, double masCantidad) {
-    cantidad = cantidad + masCantidad;
-    precio = cantidad + masPrecio;
   }
   
   @Override
